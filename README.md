@@ -6,7 +6,7 @@ Progressive Web App diseñada para la cátedra de IADM @ INFO UNLP
 
 ## Install & Run
 
-``
+```
 npm i && npm start
 open http://localhost:8080/
 ```
