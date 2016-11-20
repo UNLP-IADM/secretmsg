@@ -2,55 +2,40 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
     <link href="public/css/main.css" rel="stylesheet" />
+    <link href="public/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   </head>
   <body>
-    <header>
-      <hgroup>
-      <h1>Header</h1>
-      <h2>Subheader</h2>
-      </hgroup>
-    </header>
-    <nav>
-      <ul>
-        <li><a href="#">Menu Option 1</a></li>
-        <li><a href="#">Menu Option 2</a></li>
-      </ul>
-    </nav>
-    <section>
+
+    <section id="secret_message">
       <article>
-        <header>
-          <h1>Article #1</h1>
-        </header>
-        <section>
-          This is the first article.
-        </section>
-      </article>
-      <article>
-        <header>
-          <h1>Article #2</h1>
-        </header>
-        <section>
-          This is the second article.
-        </section>
+        <img src="public/imgs/placeholder.png" alt="image with secret message" />
       </article>
     </section>
-    <aside>
-      <section>
-        <h1>Links</h1>
-        <ul>
-          <li><a href="#">Link 1</a></li>
-          <li><a href="#">Link 2</a></li>
-        </ul>
-      </section>
-      <figure>
-        <img width="85" height="85" 
-                        src="http://domain.tld/path/to/image.jpg" 
-                        alt="foobar" />
-        <figcaption>Foobar</figcaption>
-      </figure>
-    </aside>
-    <footer>Footer</footer>
+
+    <section id="guessed_message">
+      <article>
+        <textarea rows="8"></textarea>
+      </article>
+      <article class="actions">
+        <a href="#">
+          <i class="fa fa-trash fa-2x"></i>
+        </a>
+      </article>
+    </section>
+
+    <section id="take_photo">
+      <article>
+        <a href="#">
+          <i class="fa fa-camera-retro fa-3x fa-border"></i>
+        </a>
+      </article>
+    </section>
+
+    <footer>Secretmsg - IADM2016 - Info. UNLP</footer>
+
   </body>
 </html>

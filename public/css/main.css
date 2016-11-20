@@ -1,1 +1,58 @@
+html {
+    font-size: 100%; /* aprox. 16px */
+}
 
+h1 {
+    font-size: 1.5em; /* 16px * 1.5 = 24px aprox. */
+}
+
+span {
+    font-size: 1em; /* 16px/16px */
+}
+
+body {
+    background-color: #fafafa;
+    padding: 0 15px;
+    font-family: 'Roboto', sans-serif;
+}
+
+img {
+    width: 100%;
+}
+
+a,a:visited,a:hover {
+    color: #000000;
+    text-decoration: none;
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+
+section {
+    margin-top: 30px;
+}
+
+body > footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
+
+#guessed_message {
+
+}
+
+#guessed_message>article.actions {
+    text-align: right;
+}
+
+#take_photo>article {
+    text-align: center;
+}
