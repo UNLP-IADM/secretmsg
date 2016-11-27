@@ -3,8 +3,8 @@ module.exports = {
 	getMsgFromImg: function (img){
 
 	  var canvas = document.createElement('canvas')
-    canvas.width = img.width;
-    canvas.height = img.height;
+    canvas.width = 326;
+    canvas.height = 214;
 
     var ctx = canvas.getContext('2d')
     ctx.drawImage(img, 0, 0)
