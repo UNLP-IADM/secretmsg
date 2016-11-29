@@ -73,3 +73,7 @@ body > footer {
 #take_photo>article {
     text-align: center;
 }
+
+#take_photo {
+    margin-bottom: 25px;
+}
