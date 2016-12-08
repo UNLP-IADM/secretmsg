@@ -11,15 +11,21 @@
 </head>
 
 <body>
-    <section id="picture_reader">
+    <section id="take_photo">
       <article>
         <input type="file" id="take-picture" accept="image/*">
+      </article>
+    </section>
+    
+    <section id="show_photo">
+      <article>
+        <img src="about:blank" alt="" id="show-picture">
       </article>
     </section>
 
     <section id="guessed_message">
         <article>
-            <textarea id="texto" rows="8"></textarea>
+          <textarea id="message" rows="8"></textarea>
         </article>
         <article class="actions">
             <a href="#" id="btn-reset">

@@ -68,15 +68,24 @@ body > footer {
 }
 
 #guessed_message>article.actions {
-    text-align: right;
+  text-align: right;
 }
 
 #take_photo>article {
-    text-align: center;
+  text-align: center;
 }
 
 #take_photo {
-    margin-bottom: 25px;
+  margin-bottom: 25px;
 }
 
+#show_photo>article {
+  width: 30%;
+  height: 30%;
+  top: 0px;
+}
+
+#show_photo {
+  display: inline;
+  margin-bottom: 25px;
 }
