@@ -1,42 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Prueba</title>
+    <title>IADM2016</title>
     <link href="public/css/main.css" rel="stylesheet" />
     <link href="public/css/font-awesome.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  </head>
-  <body>
-    <section id="secret_message">
-      <article class="placeholder">
-        <img id="img_place" src="public/imgs/placeholder.png" alt="image with secret message" />
-        <video  class="video" width="100%" height="226" id="video"  autoplay></video>
+</head>
+
+<body>
+    <section id="picture_reader">
+      <article>
+        <input type="file" id="take-picture" accept="image/*">
       </article>
     </section>
 
     <section id="guessed_message">
-      <article>
-        <textarea id="texto" rows="8"></textarea>
-      </article>
-      <article class="actions">
-        <a href="#" id="btn-reset">
-          <i class="fa fa-trash fa-2x"></i>
-        </a>
-      </article>
+        <article>
+            <textarea id="texto" rows="8"></textarea>
+        </article>
+        <article class="actions">
+            <a href="#" id="btn-reset">
+                <i class="fa fa-trash fa-2x"></i>
+            </a>
+        </article>
     </section>
 
-    <section id="take_photo">
-      <article>
-        <button  id="btn-camera">
-          <i class="fa fa-camera-retro fa-3x fa-border"></i>
-        </button>
-       </article>
-    </section>
+    <footer>IADM2016</footer>
+    <script src="public/js/ocrad.js"></script>
+    <script src="public/js/app3.js"></script>
+</body>
 
-    <footer>Secretmsg - IADM2016 - Info. UNLP</footer>
-    <script src="public/ocrad.js"></script>
-    <script src="public/app2.js"></script>
-  </body>
 </html>
