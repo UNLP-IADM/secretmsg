@@ -1,24 +1,36 @@
-// TODO A todos los modulos hacerle un init donde se le pase el parametro al
-// querySelector. El modulo App es el encargado de inicializar cada modulo con ese parametro
-
-
 // MODULO CAPTURE
 var capture = (function() {
-    var picture_taken = document.querySelector("#take-picture");
+    var picture_taken, open_capture;
+
+    bindCapture = function(selector) {
+        open_capture = document.querySelector(selector);
+        open_capture.addEventListener("click", function(e) {
+            if (picture_taken) {
+                picture_taken.click();
+            }
+            e.preventDefault();
+        }, false);
+    };
+
+    bindCaptured = function(selector) {
+        picture_taken = document.querySelector(selector);
+        picture_taken.onchange = function(event) {
+            var files = event.target.files,
+                file;
+
+            if (files && files.length > 0) {
+                file = files[0];
+
+                picture.display(file);
+                ocrad.decode(file, message.display);
+            }
+        };
+    };
 
     return {
-        init: function() {
-            picture_taken.onchange = function(event) {
-                var files = event.target.files,
-                    file;
-
-                if (files && files.length > 0) {
-                    file = files[0];
-
-                    picture.display(file);
-                    ocrad.decode(file);
-                }
-            };
+        init: function(input_selector, action_selector) {
+            bindCapture(action_selector);
+            bindCaptured(input_selector);
         }
     }
 })();
@@ -26,11 +38,35 @@ var capture = (function() {
 
 // MODULO PICTURE
 var picture = (function() {
-    var picture = document.querySelector("#show-picture");
+    var picture;
 
     return {
+        init: function(selector) {
+            picture = document.querySelector(selector);
+        },
         display: function(file) {
             picture.src = window.URL.createObjectURL(file);
+        },
+        reset: function() {
+            picture.src = 'public/imgs/placeholder.png';
+        }
+    }
+})();
+
+
+// MODULO MESSAGE
+var message = (function() {
+    var message;
+
+    return {
+        init: function(selector) {
+            message = document.querySelector(selector);
+        },
+        display: function(text) {
+            message.value = text;
+        },
+        reset: function() {
+            message.value = '';
         }
     }
 })();
@@ -38,20 +74,21 @@ var picture = (function() {
 
 // MODULO OCRAD
 var ocrad = (function() {
-    var message = document.querySelector("#message-decoded");
+    var img, canvas, context;
 
     return {
-        decode: function(image_file) {
-            var img = new Image;
+        decode: function(image_file, callback) {
+            img = new Image;
             img.src = URL.createObjectURL(image_file);
             img.onload = function() {
-                var canvas = document.createElement('canvas');
+                canvas = document.createElement('canvas');
                 canvas.width = img.width;
                 canvas.height = img.height;
-                var ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                context = canvas.getContext('2d');
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                message.value = OCRAD(canvas);
+                msg = OCRAD(canvas);
+                callback(msg);
             };
         }
     };
@@ -60,24 +97,23 @@ var ocrad = (function() {
 
 // MODULO APP
 var app = (function() {
-    var message_placeholder = document.querySelector("#message-decoded");
-    var image_placeholder = document.querySelector("#show-picture");
-    var reset_button = document.querySelector("#btn-reset");
 
     return {
-        start: function() {
-            capture.init();
-
-            reset_button.onclick = function() {
+        init: function() {
+            document.querySelector("#btn-reset").addEventListener("click", function() {
                 app.cleanup();
-            };
+            }, false);
+
+            message.init("#message-decoded");
+            picture.init("#show-picture");
+            capture.init("#take-picture", "#take-picture-button");
         },
 
         cleanup: function() {
-            message_placeholder.value = '';
-            image_placeholder.src = 'public/imgs/placeholder.png';
+            message.reset();
+            picture.reset();
         }
     };
 })();
 
-app.start();
+app.init();

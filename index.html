@@ -13,8 +13,9 @@
 <body>
     <section id="picture_reader">
         <article>
-            <input type="file" id="take-picture" accept="image/*">
             <img src="public/imgs/placeholder.png" alt="" id="show-picture">
+            <a href="#"><i id="take-picture-button" class="fa fa-camera fa-3x fa-border" aria-hidden="true"></i></a>
+            <input type="file" id="take-picture" accept="image/*" style="display:none">
         </article>
     </section>
 
@@ -30,7 +31,7 @@
     </section>
 
     <footer>IADM2016</footer>
-    <script src="public/js/vendor/ocrad.js"></script>
+    <script src="public/js/vendor/ocrad.min.js"></script>
     <script src="public/js/app.js"></script>
 </body>
 
