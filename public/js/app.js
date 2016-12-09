@@ -1,13 +1,14 @@
+// TODO A todos los modulos hacerle un init donde se le pase el parametro al
+// querySelector. El modulo App es el encargado de inicializar cada modulo con ese parametro
+
+
 // MODULO CAPTURE
 var capture = (function() {
     var picture_taken = document.querySelector("#take-picture");
 
     return {
         init: function() {
-            console.log('Camera: Se inicio el modulo');
-
             picture_taken.onchange = function(event) {
-
                 var files = event.target.files,
                     file;
 
@@ -17,7 +18,6 @@ var capture = (function() {
                     picture.display(file);
                     ocrad.decode(file);
                 }
-
             };
         }
     }
@@ -60,15 +60,22 @@ var ocrad = (function() {
 
 // MODULO APP
 var app = (function() {
-    var message = document.querySelector("#message-decoded");
+    var message_placeholder = document.querySelector("#message-decoded");
+    var image_placeholder = document.querySelector("#show-picture");
+    var reset_button = document.querySelector("#btn-reset");
 
     return {
         start: function() {
             capture.init();
+
+            reset_button.onclick = function() {
+                app.cleanup();
+            };
         },
 
         cleanup: function() {
-            message.value = '';
+            message_placeholder.value = '';
+            image_placeholder.src = 'public/imgs/placeholder.png';
         }
     };
 })();
