@@ -44,14 +44,15 @@ var ocrad = (function() {
         decode: function(image_file) {
             var img = new Image;
             img.src = URL.createObjectURL(image_file);
+            img.onload = function() {
+                var canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            var canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            var ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-            message.value = OCRAD(ctx);
+                message.value = OCRAD(canvas);
+            };
         }
     };
 })();
