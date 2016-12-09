@@ -1,141 +1,75 @@
-(function e(t, n, r) {
-    function s(o, u) {
-        if (!n[o]) {
-            if (!t[o]) {
-                var a = typeof require == "function" && require;
-                if (!u && a) return a(o, !0);
-                if (i) return i(o, !0);
-                var f = new Error("Cannot find module '" + o + "'");
-                throw f.code = "MODULE_NOT_FOUND", f
-            }
-            var l = n[o] = {
-                exports: {}
-            };
-            t[o][0].call(l.exports, function(e) {
-                var n = t[o][1][e];
-                return s(n ? n : e)
-            }, l, l.exports, e, t, n, r)
-        }
-        return n[o].exports
-    }
-    var i = typeof require == "function" && require;
-    for (var o = 0; o < r.length; o++) s(r[o]);
-    return s
-})({
-    1: [function(require, module, exports) {
-        module.exports = {
+// MODULO CAPTURE
+var capture = (function() {
+    var picture_taken = document.querySelector("#take-picture");
 
-            captura: function() {
-                var img = new Image();
-                var video = document.querySelector('video');
-                var canvas = document.createElement('canvas');
-                canvas.width = 320;
-                canvas.height = 400;
+    return {
+        init: function() {
+            console.log('Camera: Se inicio el modulo');
 
-                var ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            picture_taken.onchange = function(event) {
 
-                img.src = canvas.toDataURL("image/png");
+                var files = event.target.files,
+                    file;
 
-                return img;
+                if (files && files.length > 0) {
+                    file = files[0];
 
-            },
-            startWebcam: function() {
-                if (navigator.getUserMedia) {
-                    navigator.getUserMedia(
-
-                        // constraints
-                        {
-                            video: true,
-                            audio: false
-                        },
-
-                        // successCallback
-                        function(localMediaStream) {
-                            video = document.querySelector('video');
-                            video.src = window.URL.createObjectURL(localMediaStream);
-                            webcamStream = localMediaStream;
-                        },
-
-                        // errorCallback
-                        function(err) {
-                            console.log("The following error occured: " + err);
-                        }
-                    );
-                } else {
-                    console.log("getUserMedia not supported");
+                    picture.display(file);
+                    ocrad.decode(file);
                 }
-            }
+
+            };
         }
-    }, {}],
-    2: [function(require, module, exports) {
-        var camara = require('./camara');
-        var ocrad = require('./ocrad');
+    }
+})();
 
-        module.exports = {
-            getCaptura: function() {
-                var video = document.querySelector('video');
-                video.pause();
 
-                var image = camara.captura();
-                var texto = ocrad.getMsgFromImg(image);
+// MODULO PICTURE
+var picture = (function() {
+    var picture = document.querySelector("#show-picture");
 
-                return {
-                    texto: texto,
-                    image: image.src
-                };
-            }
+    return {
+        display: function(file) {
+            picture.src = window.URL.createObjectURL(file);
         }
+    }
+})();
 
-    }, {
-        "./camara": 1,
-        "./ocrad": 4
-    }],
-    3: [function(require, module, exports) {
-        var captura = require('./captura');
-        var camara = require('./camara');
 
-        var btn = document.getElementById('btn-camera')
-        var reset = document.getElementById('btn-reset')
-        var placeholder = document.querySelector('#img_place');
-        var texto = document.querySelector('#texto');
+// MODULO OCRAD
+var ocrad = (function() {
+    var message = document.querySelector("#message-decoded");
 
-        var input = document.getElementById('file-1')
-        var video = document.querySelector('video')
+    return {
+        decode: function(image_file) {
+            var img = new Image;
+            img.src = URL.createObjectURL(image_file);
 
-        camara.startWebcam();
+            var canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        btn.addEventListener("click", function() {
-            //incio la caputra
-            var data = captura.getCaptura();
-            texto.innerHTML = data.texto;
-            placeholder.src = data.image;
-        });
-
-        reset.addEventListener("click", function() {
-            //incio la caputra
-            texto.innerHTML = "";
-            placeholder.src = "public/imgs/placeholder.png";
-            video.play();
-        });
-    }, {
-        "./camara": 1,
-        "./captura": 2
-    }],
-    4: [function(require, module, exports) {
-        module.exports = {
-            getMsgFromImg: function(img) {
-                var canvas = document.createElement('canvas');
-                canvas.width = 326;
-                canvas.height = 214;
-
-                var ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
-
-                var image_data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-                return OCRAD(image_data);
-            }
+            message.value = OCRAD(ctx);
         }
-    }, {}]
-}, {}, [3]);
+    };
+})();
+
+
+// MODULO APP
+var app = (function() {
+    var message = document.querySelector("#message-decoded");
+
+    return {
+        start: function() {
+            capture.init();
+        },
+
+        cleanup: function() {
+            message.value = '';
+        }
+    };
+})();
+
+app.start();
