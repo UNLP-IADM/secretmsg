@@ -1,47 +1,75 @@
-// MODULO CAMERA
-var camera = (function () {
-  var picture = document.querySelector("#take-picture");
-  
-  var initCamera = function() {
-    picture.onchange = function (event) {
-      var files = event.target.files,file;
-      if (files && files.length > 0) {
-        file = files[0];
-      }
-      console.log('FOTO CARGADA');
-      picture.show();
-    };  
-  };
-  
-  return {
-    startCamera: function() {
-      initCamera();
+// MODULO CAPTURE
+var capture = (function() {
+    var picture_taken = document.querySelector("#take-picture");
+
+    return {
+        init: function() {
+            console.log('Camera: Se inicio el modulo');
+
+            picture_taken.onchange = function(event) {
+
+                var files = event.target.files,
+                    file;
+
+                if (files && files.length > 0) {
+                    file = files[0];
+
+                    picture.display(file);
+                    ocrad.decode(file);
+                }
+
+            };
+        }
     }
-  }
 })();
+
 
 // MODULO PICTURE
-var picture = (function () {
-  var picture = document.querySelector("#show-picture");
-  var imgURL = window.URL.createObjectURL(file);
-  
-  return {
-    show: function() {
-      console.log('MOSTRANDO LA FOTO');
-      picture.src = imgURL;
+var picture = (function() {
+    var picture = document.querySelector("#show-picture");
+
+    return {
+        display: function(file) {
+            picture.src = window.URL.createObjectURL(file);
+        }
     }
-  }
 })();
 
 
-// MODULO GENERAL
-var app = (function () {
-  
-  return {
-    start: function () {
-      camera.startCamera();
-    }
-  };
+// MODULO OCRAD
+var ocrad = (function() {
+    var message = document.querySelector("#message-decoded");
+
+    return {
+        decode: function(image_file) {
+            var img = new Image;
+            img.src = URL.createObjectURL(image_file);
+
+            var canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            message.value = OCRAD(ctx);
+        }
+    };
+})();
+
+
+// MODULO APP
+var app = (function() {
+    var message = document.querySelector("#message-decoded");
+
+    return {
+        start: function() {
+            capture.init();
+        },
+
+        cleanup: function() {
+            message.value = '';
+        }
+    };
 })();
 
 app.start();

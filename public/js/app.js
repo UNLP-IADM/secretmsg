@@ -32,7 +32,7 @@
                 canvas.width = 320;
                 canvas.height = 400;
 
-                var ctx = canvas.getContext('2d')
+                var ctx = canvas.getContext('2d');
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
                 img.src = canvas.toDataURL("image/png");
@@ -125,12 +125,12 @@
     4: [function(require, module, exports) {
         module.exports = {
             getMsgFromImg: function(img) {
-                var canvas = document.createElement('canvas')
+                var canvas = document.createElement('canvas');
                 canvas.width = 326;
                 canvas.height = 214;
 
-                var ctx = canvas.getContext('2d')
-                ctx.drawImage(img, 0, 0)
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
 
                 var image_data = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
