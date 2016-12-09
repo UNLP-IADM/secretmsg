@@ -61,12 +61,13 @@ var message = (function() {
     return {
         init: function(selector) {
             message = document.querySelector(selector);
+            this.reset();
         },
         display: function(text) {
-            message.value = text;
+            message.innerHTML = text;
         },
         reset: function() {
-            message.value = '';
+            message.innerHTML = '<i>Haga click en la camara y tome una fotografía o selecciones una imágen de su carrete. A continuación el sistema intentará reconocer el texto presente.</i>';
         }
     }
 })();

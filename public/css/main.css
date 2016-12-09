@@ -28,12 +28,6 @@ a, a:visited, a:hover {
     text-decoration: none;
 }
 
-textarea {
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid black;
-}
-
 section {
     margin-top: 30px;
     margin-bottom: 25px;
@@ -50,7 +44,7 @@ section#picture_reader {
 }
 
 #show-picture {
-  margin-bottom: 25px;
+    margin-bottom: 25px;
 }
 
 #take-picture-button {
@@ -59,4 +53,13 @@ section#picture_reader {
 
 #guessed_message>article.actions {
     text-align: right;
+}
+
+#message-decoded {
+    background-color: #a9e2ad;
+    max-width: 100%;
+    min-height: 80px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-left: 6px solid #4caf50;
 }
