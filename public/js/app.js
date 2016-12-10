@@ -6,7 +6,7 @@ var capture = (function() {
         open_capture = document.querySelector(selector);
         open_capture.addEventListener("click", function(e) {
             if (picture_taken) {
-                picture_taken.click();
+              picture_taken.click();
             }
             e.preventDefault();
         }, false);
@@ -67,7 +67,7 @@ var message = (function() {
             message.innerHTML = text;
         },
         reset: function() {
-            message.innerHTML = '<i>Haga click en la camara y tome una fotografía o selecciones una imágen de su carrete. A continuación el sistema intentará reconocer el texto presente.</i>';
+            message.innerHTML = '<i>Haga click en la cámara para tomar o seleccionar una fotografía. A continuación, el sistema intentará reconocer el texto presente.</i>';
         }
     }
 })();
@@ -79,18 +79,29 @@ var ocrad = (function() {
 
     return {
         decode: function(image_file, callback) {
-            img = new Image;
-            img.src = URL.createObjectURL(image_file);
-            img.onload = function() {
-                canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                context = canvas.getContext('2d');
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+          img = new Image();
+          
+          // ImageTools.resize(image_file, {
+          //   width: 1600,
+          //   height: 800,
+          // }, function(blob, didItResize) {
+          //   img.src = URL.createObjectURL(blob);
+          // });
+          
+          // Descomentando líneas [84..89] y comentando línea 94
+          // se redimensiona la imagen
+          
+          img.src = URL.createObjectURL(image_file);
+          img.onload = function() {
+              canvas = document.createElement('canvas');
+              canvas.width = img.width;
+              canvas.height = img.height;
+              context = canvas.getContext('2d');
+              context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                msg = OCRAD(canvas);
-                callback(msg);
-            };
+              msg = OCRAD(canvas);
+              callback(msg);
+          };
         }
     };
 })();
