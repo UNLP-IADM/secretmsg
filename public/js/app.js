@@ -67,7 +67,7 @@ var message = (function() {
             message.innerHTML = text;
         },
         reset: function() {
-            message.innerHTML = '<i>Haga click en la camara y tome una fotografía o selecciones una imágen de su carrete. A continuación el sistema intentará reconocer el texto presente.</i>';
+            message.innerHTML = '<i>Haga click en la cámara para tomar o seleccionar una fotografía. A continuación, el sistema intentará reconocer el texto presente.</i>';
         }
     }
 })();
@@ -78,9 +78,19 @@ var ocrad = (function() {
     var img, canvas, context;
 
     return {
-        decode: function(image_file, callback) {
-            img = new Image;
-            img.src = URL.createObjectURL(image_file);
+        decode: function(image_file, onSuccess) {
+            img = new Image();
+
+            // ImageTools.resize(image_file, {
+            //   width: 1600,
+            //   height: 800,
+            // }, function(blob, didItResize) {
+            //   img.src = URL.createObjectURL(blob);
+            // });
+
+            // Descomentando líneas [84..89] y comentando línea 94
+            // se redimensiona la imagen
+
             img.onload = function() {
                 canvas = document.createElement('canvas');
                 canvas.width = img.width;
@@ -89,8 +99,10 @@ var ocrad = (function() {
                 context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
                 msg = OCRAD(canvas);
-                callback(msg);
+                onSuccess(msg);
             };
+
+            img.src = URL.createObjectURL(image_file);
         }
     };
 })();
