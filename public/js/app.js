@@ -21,8 +21,22 @@ var capture = (function() {
             if (files && files.length > 0) {
                 file = files[0];
 
-                picture.display(file);
-                ocrad.decode(file, message.display);
+                var img, canvas, context;
+                img = new Image();
+
+                img.onload = function() {
+                    canvas = document.createElement('canvas');
+                    canvas.width = img.width * 0.5;
+                    canvas.height = img.height * 0.5;
+                    context = canvas.getContext('2d');
+                    context.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    message = ocrad.decode(img);
+                    Message.display(message);
+                };
+
+                img.src = URL.createObjectURL(file);
+                Picture.display(img.src);
             }
         };
     };
@@ -37,15 +51,15 @@ var capture = (function() {
 
 
 // MODULO PICTURE
-var picture = (function() {
+var Picture = (function() {
     var picture;
 
     return {
         init: function(selector) {
             picture = document.querySelector(selector);
         },
-        display: function(file) {
-            picture.src = window.URL.createObjectURL(file);
+        display: function(image) {
+            picture.src = image;
         },
         reset: function() {
             picture.src = 'public/imgs/placeholder.png';
@@ -55,7 +69,7 @@ var picture = (function() {
 
 
 // MODULO MESSAGE
-var message = (function() {
+var Message = (function() {
     var message;
 
     return {
@@ -75,37 +89,16 @@ var message = (function() {
 
 // MODULO OCRAD
 var ocrad = (function() {
-    var img, canvas, context;
-
     return {
-        decode: function(image_file, onSuccess) {
-            img = new Image();
-
-            // ImageTools.resize(image_file, {
-            //   width: 1600,
-            //   height: 800,
-            // }, function(blob, didItResize) {
-            //   img.src = URL.createObjectURL(blob);
-            // });
-
-            // Descomentando líneas [84..89] y comentando línea 94
-            // se redimensiona la imagen
-
-            img.onload = function() {
-                canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                context = canvas.getContext('2d');
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                msg = OCRAD(canvas);
-                onSuccess(msg);
-            };
-
-            img.src = URL.createObjectURL(image_file);
+        decode: function(canvas) {
+            document.querySelector('#take-picture-button').className += " fa-spin";
+            msg = OCRAD(canvas);
+            document.querySelector('#take-picture-button').classList.remove("fa-spin");
+            return msg;
         }
     };
 })();
+
 
 
 // MODULO APP
@@ -117,14 +110,14 @@ var app = (function() {
                 app.cleanup();
             }, false);
 
-            message.init("#message-decoded");
-            picture.init("#show-picture");
+            Message.init("#message-decoded");
+            Picture.init("#show-picture");
             capture.init("#take-picture", "#take-picture-button");
         },
 
         cleanup: function() {
-            message.reset();
-            picture.reset();
+            Message.reset();
+            Picture.reset();
         }
     };
 })();
