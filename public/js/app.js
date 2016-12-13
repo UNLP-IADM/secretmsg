@@ -21,21 +21,35 @@ var capture = (function() {
             if (files && files.length > 0) {
                 file = files[0];
 
-                var img, canvas, context;
-                img = new Image();
-                img.src = URL.createObjectURL(file);
 
-                img.onload = function() {
-                    canvas = document.createElement('canvas');
-                    canvas.width = img.width * 0.5;
-                    canvas.height = img.height * 0.5;
-                    context = canvas.getContext('2d');
-                    context.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                    message = ocrad.decode(canvas);
+                var reader = new FileReader();
+        				reader.onload = function(){
+        					var img = new Image();
+        					img.src = reader.result;
+        					img.onload = function(){
+                    message = ocrad.decode(img);
                     Message.display(message);
                     Picture.display(img.src);
-                };
+        					}
+        				}
+        				reader.readAsDataURL(file);
+
+
+                // var img, canvas, context;
+                // img = new Image();
+                // img.src = URL.createObjectURL(file);
+                //
+                // img.onload = function() {
+                //     canvas = document.createElement('canvas');
+                //     canvas.width = img.width * 0.5;
+                //     canvas.height = img.height * 0.5;
+                //     context = canvas.getContext('2d');
+                //     context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                //
+                //     message = ocrad.decode(canvas);
+                //     Message.display(message);
+                //     Picture.display(img.src);
+                // };
             }
         };
     };
