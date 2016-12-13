@@ -23,6 +23,7 @@ var capture = (function() {
 
                 var img, canvas, context;
                 img = new Image();
+                img.src = URL.createObjectURL(file);
 
                 img.onload = function() {
                     canvas = document.createElement('canvas');
@@ -31,12 +32,10 @@ var capture = (function() {
                     context = canvas.getContext('2d');
                     context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                    message = ocrad.decode(img);
+                    message = ocrad.decode(canvas);
                     Message.display(message);
+                    Picture.display(img.src);
                 };
-
-                img.src = URL.createObjectURL(file);
-                Picture.display(img.src);
             }
         };
     };
@@ -91,9 +90,9 @@ var Message = (function() {
 var ocrad = (function() {
     return {
         decode: function(canvas) {
-            document.querySelector('#take-picture-button').className += " fa-spin";
+            // document.querySelector('#take-picture-button').className += " fa-spin";
             msg = OCRAD(canvas);
-            document.querySelector('#take-picture-button').classList.remove("fa-spin");
+            // document.querySelector('#take-picture-button').classList.remove("fa-spin");
             return msg;
         }
     };
